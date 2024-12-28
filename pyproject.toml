@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "alpacacryptotradingbot"
+version = "0.1.0"
+description = "Generate consistent profits through disciplined swing trading in crypto markets."
+authors = ["imKXNNY <kenny.gueclue@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pandas-ta = "^0.3.14b0"
+pandas = "^2.2.3"
+numpy = "^2.2.1"
+matplotlib = "^3.10.0"
+alpaca-py = "^0.35.0"
+streamlit = "^1.41.1"
+apscheduler = "^3.11.0"
+alpaca-trade-api = "^3.2.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
