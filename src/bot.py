@@ -84,11 +84,11 @@ def run_strategy(
         atr = df["atr"].iloc[-1] if "atr" in df.columns else None
         if atr is None:
             # If we haven't explicitly calculated ATR yet, let's do it quickly
-            import pandas_ta as ta
-            df["atr"] = ta.atr(df["High"], df["Low"], df["Close"], length=14)
+            import ta
+            df["atr"] = ta.atr(df["high"], df["low"], df["close"], length=14)
             atr = df["atr"].iloc[-1]
 
-        current_price = latest_row["Close"]
+        current_price = latest_row["close"]
         stop_loss_price = atr_stop_loss(current_price, atr, multiplier=atr_multiplier)
 
         # 3B. Position Sizing

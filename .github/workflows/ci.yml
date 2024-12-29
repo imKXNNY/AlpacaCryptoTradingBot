@@ -1,0 +1,66 @@
+# .github/workflows/ci.yml
+
+name: Continuous Integration
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Build, Lint, and Test
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout the repository
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # Step 2: Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.12'
+
+      # Step 3: Cache Poetry dependencies
+      - name: Cache Poetry Dependencies
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cache/pypoetry
+            ~/.cache/pip
+          key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-poetry-
+
+      # Step 4: Install Poetry
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          echo "::add-path::$HOME/.local/bin"
+
+      # Step 5: Install dependencies using Poetry
+      - name: Install Dependencies
+        run: poetry install --no-interaction --no-ansi
+
+      # Step 6: Run Linters (Optional)
+      - name: Run Linters
+        run: poetry run flake8 src tests
+
+      # Step 7: Run Tests with Coverage
+      - name: Run Tests
+        run: poetry run pytest --cov=src --cov-report=xml
+
+      # Step 8: Upload Coverage to Codecov
+      - name: Upload Coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+          files: coverage.xml
+          flags: unittests
+          name: codecov-umbrella
+          fail_ci_if_error: true

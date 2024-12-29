@@ -1,13 +1,21 @@
 # tests/test_backtest.py
-import pandas as pd
-from src.backtest import backtest
 
-def test_backtest():
-    data = {
-        "close": [100, 98, 95, 105],
-        "signal": [0, 1, -1, 0],  # buy at second bar, sell at third
-    }
-    df = pd.DataFrame(data)
-    final_balance = backtest(df, initial_capital=1000)
-    # If we buy at 98 and sell at 95, we lose some capital
-    assert final_balance < 1000, "Expected a loss!"
+from src.backtests.backtest_shared import preprocess_binance_csv, run_backtest
+from src.backtests.backtest_catch_the_wave import backtest_catch_the_wave
+from src.backtests.backtest_stuck_in_a_box import backtest_stuck_in_a_box  # Ensure this import exists
+
+def test_backtest_catch_the_wave_with_binance_data():
+    # Preprocess Binance CSV
+    preprocess_binance_csv("data/BTCUSDT-1h-2024-11.csv", "tests/tmp-data/temp_cleaned_btcusdt_1h.csv")
+
+    # Run backtest using the preprocessed data
+    final_balance = backtest_catch_the_wave("tests/tmp-data/temp_cleaned_btcusdt_1h.csv", initial_cash=1000)
+    assert final_balance != 1000.0, "Final balance should differ from initial cash."
+
+def test_backtest_stuck_in_a_box_with_binance_data():
+    # Preprocess Binance CSV for SOL/USDT
+    preprocess_binance_csv("data/SOLUSDT-1h-2024-11.csv", "tests/tmp-data/temp_cleaned_solusdt_1h.csv")
+
+    # Run backtest using the preprocessed data
+    final_balance = backtest_stuck_in_a_box("tests/tmp-data/temp_cleaned_solusdt_1h.csv", initial_cash=1000)
+    assert final_balance != 1000.0, "Final balance should differ from initial cash."

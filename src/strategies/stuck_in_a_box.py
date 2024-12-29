@@ -1,56 +1,90 @@
 # file: src/strategies/stuck_in_a_box.py
 import pandas as pd
-import pandas_ta as ta
+from ta.momentum import RSIIndicator
 
 def identify_box(df: pd.DataFrame, period: int = 50) -> pd.DataFrame:
     """
-    Rough example to identify a 'box' range over the last `period`.
-    We find recent max (resistance) and min (support).
+    Identify a 'box' range over the last `period` bars.
     """
-    df["box_top"] = df["High"].rolling(period).max()
-    df["box_bottom"] = df["Low"].rolling(period).min()
+    df["box_high"] = df["high"].rolling(period).max()
+    df["box_bottom"] = df["low"].rolling(period).min()
+
+    # TODO: Consider adding validation for box formation
+    # Examples:
+    # - Ensure the range is tight enough (e.g., width < 10% of box_bottom).
+    # - This could help avoid false signals in trending markets.
     return df
 
 def stuck_in_a_box_signals(
     df: pd.DataFrame,
+    box_period: int = 50,
     rsi_period: int = 14,
+    rsi_threshold: float = 50,
     rsi_oversold: float = 30,
-    box_period: int = 50
+    near_threshold: float = 0.02
 ) -> pd.DataFrame:
-    """
-    Generate signals for range trading:
-    - Go long near box_bottom when RSI is oversold.
-    - Example: Exits near box_top or when RSI is overbought.
+     
+    # Ensure necessary columns are present
+    required_columns = ["open", "close", "high", "low"]
+    missing_columns = set(required_columns) - set(df.columns)
+    if missing_columns:
+        raise ValueError(f"Missing columns: {missing_columns}")
 
-    Returns a DataFrame with 'signal' column for entries.
-    """
-    # 1. Identify the 'box' over a rolling period
-    df = identify_box(df, period=box_period)
+    # Box calculation
+    df["box_high"] = df["high"].rolling(window=box_period).max()
+    df["box_low"] = df["low"].rolling(window=box_period).min()
+    df["box_mid"] = (df["box_high"] + df["box_low"]) / 2
+    
+    # RSI
+    rsi = RSIIndicator(close=df["close"], window=rsi_period)
+    df["rsi"] = rsi.rsi()
+    
+    # Candlestick patterns
+    df["is_hammer"] = (
+        (df["close"] > df["open"]) &
+        (df["low"] == df["low"].rolling(window=5).min()) &
+        ((df["high"] - df["close"]) > 2 * (df["close"] - df["open"]))
+    )
+    df["is_engulfing"] = (
+        (df["close"].shift(1) < df["open"].shift(1)) &
+        (df["close"] > df["open"]) &
+        (df["close"] > df["high"].shift(1)) &
+        (df["open"] < df["low"].shift(1))
+    )
+    df["is_doji"] = (abs(df["close"] - df["open"]) < (df["high"] - df["low"]) * 0.1)
 
-    # 2. Calculate RSI
-    df["rsi"] = ta.rsi(df["Close"], length=rsi_period)
-
-    # 3. Entry condition: Price near box_bottom + RSI oversold
-    df["signal"] = 0
-    # For "near box_bottom", define a threshold or percent
-    near_bottom = (df["Close"] <= df["box_bottom"] * 1.02)  # e.g. 2% above bottom
-    oversold = (df["rsi"] < rsi_oversold)
-
-    df.loc[near_bottom & oversold, "signal"] = 1  # buy
-
+    # Entry condition
+    df["near_support"] = df["close"].between(df["box_low"] * (1 - near_threshold), df["box_low"] * (1 + near_threshold))
+    df["entry_confirmation"] = df["rsi"] > rsi_threshold
+    
+    df["signal"] = ((df["near_support"]) & 
+                    (df["is_hammer"] | df["is_engulfing"] | df["is_doji"]) & 
+                    (df["entry_confirmation"]) &
+                    (df["rsi"] < rsi_oversold)).astype(int)
+    
+    # Exit condition
+    df["near_top"] = df["close"] >= df["box_high"] * (1 - near_threshold)
+    df["exit_signal"] = (df["near_top"] | (df["rsi"] > rsi_oversold)).astype(int)
+    
     return df
 
 def stuck_in_a_box_exit(
     df: pd.DataFrame,
-    rsi_overbought: float = 70
+    rsi_overbought: float = 70,
+    near_threshold: float = 0.02
 ) -> pd.DataFrame:
     """
-    Example exit near 'box_top' or when RSI is overbought.
+    Example exit near 'box_high' or RSI overbought.
+    'exit_signal' = 1 means 'exit/sell'
     """
     df["exit_signal"] = 0
-    near_top = (df["Close"] >= df["box_top"] * 0.98)  # within 2% of top
+    near_top = (df["close"] >= df["box_high"] * (1 - near_threshold))
     overbought = (df["rsi"] > rsi_overbought)
 
-    # You can combine conditions or treat them separately
     df.loc[near_top | overbought, "exit_signal"] = 1
+
+    # TODO: Add stop-loss logic for exits
+    # Example:
+    # - Use an ATR-based stop-loss set below the box bottom for long positions.
+
     return df
