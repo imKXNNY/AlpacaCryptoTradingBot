@@ -594,6 +594,22 @@ files = [
 packaging = "*"
 
 [[package]]
+name = "flake8"
+version = "7.1.1"
+description = "the modular source code checker: pep8 pyflakes and co"
+optional = false
+python-versions = ">=3.8.1"
+files = [
+    {file = "flake8-7.1.1-py2.py3-none-any.whl", hash = "sha256:597477df7860daa5aa0fdd84bf5208a043ab96b8e96ab708770ae0364dd03213"},
+    {file = "flake8-7.1.1.tar.gz", hash = "sha256:049d058491e228e03e67b390f311bbf88fce2dbaa8fa673e7aea87b7198b8d38"},
+]
+
+[package.dependencies]
+mccabe = ">=0.7.0,<0.8.0"
+pycodestyle = ">=2.12.0,<2.13.0"
+pyflakes = ">=3.2.0,<3.3.0"
+
+[[package]]
 name = "fonttools"
 version = "4.55.3"
 description = "Tools to manipulate font files"
@@ -1115,6 +1131,17 @@ python-dateutil = ">=2.7"
 
 [package.extras]
 dev = ["meson-python (>=0.13.1,<0.17.0)", "pybind11 (>=2.13.2,!=2.13.3)", "setuptools (>=64)", "setuptools_scm (>=7)"]
+
+[[package]]
+name = "mccabe"
+version = "0.7.0"
+description = "McCabe checker, plugin for flake8"
+optional = false
+python-versions = ">=3.6"
+files = [
+    {file = "mccabe-0.7.0-py2.py3-none-any.whl", hash = "sha256:6c2d30ab6be0e4a46919781807b4f0d834ebdd6c6e3dca0bda5a15f863427b6e"},
+    {file = "mccabe-0.7.0.tar.gz", hash = "sha256:348e0240c33b60bbdf4e523192ef919f28cb2c3d7d5c7794f74009290f236325"},
+]
 
 [[package]]
 name = "mdurl"
@@ -1734,6 +1761,17 @@ files = [
 test = ["cffi", "hypothesis", "pandas", "pytest", "pytz"]
 
 [[package]]
+name = "pycodestyle"
+version = "2.12.1"
+description = "Python style guide checker"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pycodestyle-2.12.1-py2.py3-none-any.whl", hash = "sha256:46f0fb92069a7c28ab7bb558f05bfc0110dac69a0cd23c61ea0040283a9d78b3"},
+    {file = "pycodestyle-2.12.1.tar.gz", hash = "sha256:6838eae08bbce4f6accd5d5572075c63626a15ee3e6f842df996bf62f6d73521"},
+]
+
+[[package]]
 name = "pydantic"
 version = "2.10.4"
 description = "Data validation using Python type hints"
@@ -1883,6 +1921,17 @@ numpy = ">=1.16.4"
 [package.extras]
 carto = ["pydeck-carto"]
 jupyter = ["ipykernel (>=5.1.2)", "ipython (>=5.8.0)", "ipywidgets (>=7,<8)", "traitlets (>=4.3.2)"]
+
+[[package]]
+name = "pyflakes"
+version = "3.2.0"
+description = "passive checker of Python programs"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "pyflakes-3.2.0-py2.py3-none-any.whl", hash = "sha256:84b5be138a2dfbb40689ca07e2152deb896a65c3a3e24c251c5c62489568074a"},
+    {file = "pyflakes-3.2.0.tar.gz", hash = "sha256:1c61603ff154621fb2a9172037d84dca3500def8c8b630657d1701f026f8af3f"},
+]
 
 [[package]]
 name = "pygments"
@@ -2636,4 +2685,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "0a7850bf91f9fa383bc407dc1024ed989079ddef3e7276174eee1bfa77b48783"
+content-hash = "ad7ba4795404c389e4a6f8b986193414a4170dc37f1ad0c008552a830dc610b5"

@@ -23,7 +23,12 @@ prettier = "^0.0.7"
 pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
 pytest-mock = "^3.14.0"
+flake8 = "^7.1.1"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.flake8]
+max-line-length = 88
+exclude = ["__pycache__", ".venv", ".git"]
