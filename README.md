@@ -1,6 +1,6 @@
 # Alpaca Crypto Trading Bot | ACTB
 
-![Crypto Trading Bot](https://example.com/your-image.png) <!-- Replace with an actual image if available -->
+![Crypto Trading Bot](https://github.com/imKXNNY/AlpacaCryptoTradingBot/src/assets/ACTB-Banner.webp) <!-- Replace with an actual image if available -->
 
 ![Build Status](https://github.com/imKXNNY/AlpacaCryptoTradingBot/actions/workflows/ci.yml/badge.svg)
 ![Coverage](https://codecov.io/gh/imKXNNY/AlpacaCryptoTradingBot/branch/main/graph/badge.svg)
