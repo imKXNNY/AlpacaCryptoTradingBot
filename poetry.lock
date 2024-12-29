@@ -1748,17 +1748,6 @@ pyyaml = ">=5.1"
 virtualenv = ">=20.10.0"
 
 [[package]]
-name = "prettier"
-version = "0.0.7"
-description = "Properly pprint of nested objects"
-optional = false
-python-versions = "*"
-files = [
-    {file = "prettier-0.0.7-py3-none-any.whl", hash = "sha256:20e76791de41cafe481328dd49552303f29ca192151cee1b120c26f66cae9bfc"},
-    {file = "prettier-0.0.7.tar.gz", hash = "sha256:6c34b8cd09fd9c8956c05d6395ea3f575e0122dce494ba57685c07065abed427"},
-]
-
-[[package]]
 name = "propcache"
 version = "0.2.1"
 description = "Accelerated property cache"
@@ -2868,4 +2857,4 @@ propcache = ">=0.2.0"
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "fa85508efed167cdf3c33b933e83f329b433393175b83991051e68f959e3fdc7"
+content-hash = "7557099e7570a3655cf1a0b3a39e23024c0b9528b2896c4e5aeffd4839c4ee75"

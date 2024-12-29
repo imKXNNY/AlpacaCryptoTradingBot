@@ -2,7 +2,9 @@
 
 ![Crypto Trading Bot](https://example.com/your-image.png) <!-- Replace with an actual image if available -->
 
-![Build Status](https://github.com/imKXNNY/AlpacaCryptoTradingBot/actions/workflows/ci.yml/badge.svg) ![Coverage](https://codecov.io/gh/imKXNNY/AlpacaCryptoTradingBot/branch/main/graph/badge.svg) ![License](https://img.shields.io/github/license/imKXNNY/AlpacaCryptoTradingBot)
+![Build Status](https://github.com/imKXNNY/AlpacaCryptoTradingBot/actions/workflows/ci.yml/badge.svg)
+![Coverage](https://codecov.io/gh/imKXNNY/AlpacaCryptoTradingBot/branch/main/graph/badge.svg)
+![License](https://img.shields.io/github/license/imKXNNY/AlpacaCryptoTradingBot)
 
 ## Table of Contents
 
@@ -298,7 +300,7 @@
   
   ```bash
   git init
-  git remote add origin https://github.com/yourusername/trading-bot.git
+  git remote add origin https://github.com/imKXNNY/AlpacaCryptoTradingBot.git
   git add .
   git commit -m "Initial commit"
   git push -u origin master
@@ -615,13 +617,13 @@ This project is intended for educational purposes only and does not constitute f
 - 🎯 **Robust Trading Strategies**: Developed and validated "Catch the Wave" and "Stuck in a Box" strategies through extensive backtesting.
 - 🚀 **Scalable Architecture**: Structured the project with a clear directory hierarchy, facilitating future expansions and maintenance.
 
-![Coverage Badge](https://img.shields.io/codecov/c/github/yourusername/trading-bot?label=Coverage) ![Build Status](https://img.shields.io/github/workflow/status/yourusername/trading-bot/CI?label=Build) ![License](https://img.shields.io/github/license/yourusername/trading-bot)
+![Coverage Badge](https://img.shields.io/codecov/c/github/imKXNNY/AlpacaCryptoTradingBot?label=Coverage) ![Build Status](https://img.shields.io/github/workflow/status/imKXNNY/AlpacaCryptoTradingBot/CI?label=Build) ![License](https://img.shields.io/github/license/imKXNNY/AlpacaCryptoTradingBot)
 
 ---
 
 ## Contact
 
-For any questions, issues, or contributions, please open an issue or submit a pull request on the [GitHub repository](https://github.com/yourusername/trading-bot).
+For any questions, issues, or contributions, please open an issue or submit a pull request on the [GitHub repository](https://github.com/imKXNNY/AlpacaCryptoTradingBot).
 
 ---
 
@@ -639,7 +641,7 @@ To help you get started quickly, follow these steps to set up your development e
 1. **Clone the Repository**
 
     ```bash
-    git clone https://github.com/yourusername/trading-bot.git
+    git clone https://github.com/imKXNNY/AlpacaCryptoTradingBot.git
     cd trading-bot
     ```
 
