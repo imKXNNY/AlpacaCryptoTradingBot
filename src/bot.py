@@ -2,7 +2,6 @@
 
 import os
 import logging
-import pandas as pd
 import alpaca_trade_api as tradeapi
 
 # Local imports
@@ -19,8 +18,7 @@ from src.strategies.stuck_in_a_box import (
 
 # ========== Logging Configuration ==========
 logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
+    level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s"
 )
 
 # ========== Alpaca API Setup ==========
@@ -77,7 +75,9 @@ def run_strategy(
     signal = latest_row.get("signal", 0)
     exit_signal = latest_row.get("exit_signal", 0)
 
-    logging.info(f"Strategy = {strategy_type}, Symbol = {symbol}, Signal = {signal}, Exit = {exit_signal}")
+    logging.info(
+        f"Strategy = {strategy_type}, Symbol = {symbol}, Signal = {signal}, Exit = {exit_signal}"
+    )
 
     if signal == 1:
         # 3A. ATR-based stop-loss (optional)
@@ -85,6 +85,7 @@ def run_strategy(
         if atr is None:
             # If we haven't explicitly calculated ATR yet, let's do it quickly
             import ta
+
             df["atr"] = ta.atr(df["high"], df["low"], df["close"], length=14)
             atr = df["atr"].iloc[-1]
 
@@ -108,7 +109,9 @@ def run_strategy(
             return
 
         # 4A. Place a Buy Order
-        logging.info(f"Placing BUY order for {symbol} with size={size:.5f} at ~{current_price:.2f} stop_loss={stop_loss_price:.2f}")
+        logging.info(
+            f"Placing BUY order for {symbol} with size={size:.5f} at ~{current_price:.2f} stop_loss={stop_loss_price:.2f}"
+        )
         place_order(symbol, side="buy", qty=size)
 
     elif exit_signal == 1:
@@ -117,7 +120,9 @@ def run_strategy(
         position = get_open_position(symbol)
         if position and float(position.qty) > 0:
             qty = float(position.qty)
-            logging.info(f"Placing SELL order for {symbol} with qty={qty} to exit position.")
+            logging.info(
+                f"Placing SELL order for {symbol} with qty={qty} to exit position."
+            )
             place_order(symbol, side="sell", qty=qty)
         else:
             logging.info(f"No open position to sell for {symbol}.")
@@ -126,7 +131,9 @@ def run_strategy(
         logging.info(f"No new action for {symbol} at this bar.")
 
 
-def place_order(symbol: str, side: str, qty: float, order_type="market", time_in_force="gtc"):
+def place_order(
+    symbol: str, side: str, qty: float, order_type="market", time_in_force="gtc"
+):
     """
     Places an order via Alpaca's API.
     :param symbol: "BTCUSD", "SOLUSD", etc.
@@ -166,7 +173,7 @@ def get_open_position(symbol: str):
 
 def main():
     """
-    Example usage of run_strategy(). 
+    Example usage of run_strategy().
     Adjust parameters to your needs.
     """
     # Single run for BTC/USD using "Catch the Wave" on 1Hour timeframe
@@ -174,7 +181,7 @@ def main():
         symbol="BTCUSD",
         strategy_type="catch_the_wave",
         timeframe="1Hour",
-        lookback=200,    # how many bars
+        lookback=200,  # how many bars
         account_balance=10000.0,
         risk_percent=0.01,
         atr_multiplier=1.5,

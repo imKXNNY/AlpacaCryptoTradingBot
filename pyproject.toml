@@ -24,6 +24,8 @@ pytest = "^8.3.4"
 pytest-cov = "^6.0.0"
 pytest-mock = "^3.14.0"
 flake8 = "^7.1.1"
+black = "^24.10.0"
+pre-commit = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -31,4 +33,24 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.flake8]
 max-line-length = 88
-exclude = ["__pycache__", ".venv", ".git"]
+extend-ignore = ["E203", "W503", "E501"]
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "build",
+    "dist"
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py312']
+include = '\.pyi?$'
+exclude = '''
+/(
+    \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''

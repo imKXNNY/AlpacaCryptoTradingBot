@@ -1,8 +1,10 @@
 # file: src/utils/risk_management.py
-import pandas as pd
-import numpy as np
-
-def position_size(account_balance: float, risk_percent: float, entry_price: float, stop_loss_price: float) -> float:
+def position_size(
+    account_balance: float,
+    risk_percent: float,
+    entry_price: float,
+    stop_loss_price: float,
+) -> float:
     """
     Position Size = (Account Balance * Risk %) / (Entry Price - Stop Loss Price)
     """
@@ -14,7 +16,10 @@ def position_size(account_balance: float, risk_percent: float, entry_price: floa
     size = risk_amount / diff
     return round(size, 4)  # or however you want to format
 
-def atr_stop_loss(current_price: float, atr_value: float, multiplier: float = 1.5) -> float:
+
+def atr_stop_loss(
+    current_price: float, atr_value: float, multiplier: float = 1.5
+) -> float:
     """
     Example: Stop loss below current_price by a multiple of ATR.
     """
